@@ -1,2 +1,2 @@
-# data-science
-Data science using Python
+# Data-Science
+Data science projects using Python.
