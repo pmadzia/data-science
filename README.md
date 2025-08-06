@@ -1,2 +1,2 @@
 # Data science projects
-Jupyternotebook's data science projects using python
+Jupyter notebook's data science projects using python
