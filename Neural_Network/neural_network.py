@@ -19,3 +19,29 @@ class Neural_Network:
         self.W2 = 0.01 * np.random.randn(self.hidden_size, self.output_size)
         # bias vector for output layer, shape (1, output_size)
         self.b2 = np.zeros((1, self.output_size))
+    
+    def frwd_prop(self, X):
+        # Linear step: input -> hidden
+        z1 = np.dot(X, self.W1) + self.b1  
+
+        # Activation: ReLU
+        A1 = np.maximum(0, z1)
+
+        # Linear step: hidden -> output
+        z2 = np.dot(A1, self.W2) + self.b2
+
+        # Stable softmax (subtract max for numerical stability)
+        z2_shifted = z2 - np.max(z2, axis=1, keepdims=True)
+        exp_scores = np.exp(z2_shifted)
+        A2 = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+
+        return A1, A2
+
+
+    def ce_loss(self, y_true, y_pred_proba):
+        # Cross-entropy loss with epsilon for stability
+        num_examples = y_true.shape[0]
+        eps = 1e-15
+        correct_log_probs = -np.log(y_pred_proba[range(num_examples), y_true] + eps)
+        loss = np.sum(correct_log_probs) / num_examples
+        return loss
